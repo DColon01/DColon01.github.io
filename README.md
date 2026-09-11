@@ -4,7 +4,7 @@
 
 Welcome to my professional portfolio.
 
-I am a Senior Data Solutions Analyst with 30+ years of experience using data, analytics, business intelligence, automation, and technology to solve complex business problems and improve operational performance.
+I am a Senior Data Solutions Analyst with XX+ years of experience using data, analytics, business intelligence, automation, and technology to solve complex business problems and improve operational performance.
 
 My approach is simple:
 
