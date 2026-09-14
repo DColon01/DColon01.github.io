@@ -448,6 +448,8 @@ p {
 
 .button.primary:hover {
     background: var(--primary-dark);
+
+    box-shadow: var(--shadow);
 }
 
 .button.secondary {
