@@ -946,7 +946,6 @@ section .container {
     background-color: #f8fafc;
     color: #000000;
     text-decoration: none;
-    transform: translateY(-2px);
     box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
 }
 
