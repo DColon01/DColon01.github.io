@@ -926,6 +926,30 @@ section .container {
     color: #2563eb;
     text-decoration: none;
 }
+```css
+/* Explore Case Study Button */
+.case-study-button {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 12px 22px;
+    border-radius: 7px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+.case-study-button:hover {
+    background-color: #f8fafc;
+    color: #000000;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+}
+```
+
 .center-button {
 
     text-align: center;
