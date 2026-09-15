@@ -1638,5 +1638,26 @@ a:focus-visible {
             5px 9px;
     }
 
+/* =========================================
+   FOUR DIAMOND SECTION DIVIDER
+========================================= */
+
+.section-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 70px;
+}
+
+.section-divider span {
+    width: 7px;
+    height: 7px;
+    background-color: #000000;
+    display: block;
+    transform: rotate(45deg);
+}
+
+
 }
 
