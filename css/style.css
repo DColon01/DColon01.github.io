@@ -553,7 +553,7 @@ section .container {
 
     font-size: 17px;
 
-    max-width: 680px;
+    max-width: 760px;
 }
 
 
@@ -914,6 +914,18 @@ section .container {
     text-decoration: none;
 }
 
+
+/* Explore Case Study link */
+.case-study-link {
+    color: #000000;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.case-study-link:hover {
+    color: #2563eb;
+    text-decoration: none;
+}
 .center-button {
 
     text-align: center;
@@ -1603,4 +1615,4 @@ a:focus-visible {
     }
 
 }
-```
+
