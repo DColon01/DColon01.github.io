@@ -1639,10 +1639,10 @@ a:focus-visible {
 }
 
 /* =========================================
-   SECTION DIVIDER
+   FOUR LARGE DIAMOND SECTION DIVIDER
    ========================================= */
 
-.section-divider {
+.section-divider.secondary {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -1653,7 +1653,7 @@ a:focus-visible {
     background: transparent !important;
 }
 
-.section-divider span {
+.section-divider.secondary span {
     display: block !important;
     width: 20px !important;
     height: 20px !important;
@@ -1664,4 +1664,24 @@ a:focus-visible {
     transform: rotate(45deg) !important;
 }
 
+
+/* =========================================
+   FOUR DIAMOND SECTION DIVIDER
+========================================= */
+
+.section-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 70px;
+}
+
+.section-divider span {
+    width: 7px;
+    height: 7px;
+    background-color: #000000;
+    display: block;
+    transform: rotate(45deg);
+}
 
