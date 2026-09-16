@@ -4,6 +4,7 @@
 
 <head>
 
+```
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -12,6 +13,7 @@
 <title>Projects | Your Name</title>
 
 <link rel="stylesheet" href="css/style.css">
+```
 
 </head>
 
@@ -23,30 +25,31 @@
 
 <nav class="navbar">
 
-    <div class="nav-container">
+```
+<div class="nav-container">
 
-        <a href="index.html" class="logo">
-            Your Name
-        </a>
+    <a href="index.html" class="logo">
+        Your Name
+    </a>
 
-        <div class="nav-links">
+    <div class="nav-links">
 
-            <a href="index.html">Home</a>
+        <a href="index.html">Home</a>
 
-            <a href="projects.html">Work</a>
+        <a href="projects.html">Work</a>
 
-            <a href="about.html">About</a>
+        <a href="about.html">About</a>
 
-            <a href="resume.html">Resume</a>
+        <a href="resume.html">Resume</a>
 
-            <a href="contact.html">Contact</a>
-
-        </div>
+        <a href="contact.html">Contact</a>
 
     </div>
 
-</nav>
+</div>
+```
 
+</nav>
 
 <!-- =====================================================
      HERO
@@ -54,156 +57,361 @@
 
 <header class="hero">
 
-    <div class="hero-content">
+```
+<div class="hero-content">
 
-      <h1>Projects</h1>
+    <p class="eyebrow">
+        Selected Work
+    </p>
 
-      <p class="hero-description">
-          Real-world examples of data, AI, analytics, and automation
-          solutions.
-      </p>
+    <h1>Projects</h1>
 
-  </div>
+    <p class="hero-description">
+        Real-world examples of data, AI, analytics, and
+        automation solutions.
+    </p>
+
+</div>
+```
 
 </header>
 
-<main class="container">
+<!-- =====================================================
+     FEATURED PROJECTS
+     ===================================================== -->
 
-<section>
+<section class="featured-work">
 
-    <h2>Featured Projects</h2>
+```
+<div class="container">
 
-    <div class="card-grid">
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Featured Work
+        </p>
+
+        <h2>Selected Projects</h2>
+
+        <p>
+            A collection of business-focused solutions spanning
+            artificial intelligence, data analytics, automation,
+            business intelligence, and data integration.
+        </p>
+
+    </div>
 
 
-        <!-- Project 1 -->
+    <!-- =================================================
+         FEATURED PROJECT
+         ================================================= -->
 
-        <div class="card">
+    <div class="featured-project">
 
-            <h3>AI Reporting Automation</h3>
+        <div class="featured-project-content">
+
+            <p class="project-label">
+                Featured Project
+            </p>
+
+            <h3>
+                AI Reporting Automation
+            </h3>
 
             <p>
-                AI-powered reporting automation using Power Automate,
-                AI Builder, Power BI, SharePoint, and data warehouse
-                technologies.
+                AI-powered reporting automation using Power
+                Automate, AI Builder, Power BI, SharePoint,
+                and data warehouse technologies.
             </p>
 
-            <p class="metric">
-                XX.X%
+            <p class="project-label">
+                Technologies
             </p>
+
+            <div class="technology-list">
+
+                <span class="tag">Power Automate</span>
+                <span class="tag">AI Builder</span>
+                <span class="tag">Power BI</span>
+                <span class="tag">SharePoint</span>
+                <span class="tag">Data Warehouse</span>
+
+            </div>
+
+            <a class="text-link"
+               href="projects/ai-reporting-automation.html">
+
+                Explore Project →
+
+            </a>
+
+        </div>
+
+
+        <div class="featured-project-result">
+
+            <p class="project-label">
+                Reported Impact
+            </p>
+
+            <span class="large-metric">
+                XX.X%
+            </span>
 
             <p>
                 Reduction in weekly reporting time.
             </p>
 
-            <a class="button"
+            <a class="button secondary"
                href="projects/ai-reporting-automation.html">
-                View Project
+
+                View Case Study
+
             </a>
 
         </div>
 
+    </div>
 
-        <!-- Project 2 -->
+</div>
+```
 
-        <div class="card">
+</section>
 
-            <h3>Data Quality & Reconciliation</h3>
+<!-- =====================================================
+     PROJECT GRID
+     ===================================================== -->
+
+<section class="selected-work">
+
+```
+<div class="container">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Portfolio
+        </p>
+
+        <h2>Project Portfolio</h2>
+
+        <p>
+            Examples of solutions designed to address
+            operational, analytical, financial, and
+            technology challenges.
+        </p>
+
+    </div>
+
+
+    <div class="project-grid">
+
+
+        <!-- =================================================
+             PROJECT 01
+             ================================================= -->
+
+        <article class="project-card">
+
+            <p class="project-number">
+                01
+            </p>
+
+            <h3>
+                Data Quality &amp; Reconciliation
+            </h3>
+
+            <p class="project-label">
+                Data &amp; Analytics
+            </p>
 
             <p>
-                Automated data-quality analysis and reconciliation
-                framework designed to identify discrepancies,
-                exceptions, and data integrity issues.
+                Automated data-quality analysis and
+                reconciliation framework designed to identify
+                discrepancies, exceptions, and data integrity
+                issues.
             </p>
 
-            <p class="metric">
+            <span class="large-metric">
                 X,XXX+
-            </p>
+            </span>
 
             <p>
                 Findings analyzed in a representative project.
             </p>
 
-            <a class="button"
+            <div class="technology-list">
+
+                <span class="tag">SQL</span>
+                <span class="tag">Data Quality</span>
+                <span class="tag">Reconciliation</span>
+                <span class="tag">Analytics</span>
+
+            </div>
+
+            <a class="text-link"
                href="projects/data-quality-analytics.html">
-                View Project
+
+                View Project →
+
             </a>
 
-        </div>
+        </article>
 
 
-        <!-- Project 3 -->
+        <!-- =================================================
+             PROJECT 02
+             ================================================= -->
 
-        <div class="card">
+        <article class="project-card">
 
-            <h3>n8n AI Business Assistant</h3>
+            <p class="project-number">
+                02
+            </p>
+
+            <h3>
+                n8n AI Business Assistant
+            </h3>
+
+            <p class="project-label">
+                AI &amp; Automation
+            </p>
 
             <p>
                 AI-powered business workflow using n8n,
                 APIs, data transformation, and generative AI.
             </p>
 
-            <p class="metric">
+            <span class="large-metric">
                 AI + Automation
-            </p>
+            </span>
 
             <p>
-                Demonstrating modern intelligent workflow design.
+                Demonstrating modern intelligent workflow
+                design.
             </p>
 
-            <a class="button"
+            <div class="technology-list">
+
+                <span class="tag">n8n</span>
+                <span class="tag">AI</span>
+                <span class="tag">APIs</span>
+                <span class="tag">Automation</span>
+
+            </div>
+
+            <a class="text-link"
                href="projects/n8n-ai-automation.html">
-                Coming Soon
+
+                Coming Soon →
+
             </a>
 
-        </div>
+        </article>
 
 
-        <!-- Project 4 -->
+        <!-- =================================================
+             PROJECT 03
+             ================================================= -->
 
-        <div class="card">
+        <article class="project-card">
 
-            <h3>Executive Analytics Dashboard</h3>
-
-            <p>
-                Interactive Power BI dashboard designed to provide
-                executives and business leaders with actionable
-                performance insights.
+            <p class="project-number">
+                03
             </p>
 
-            <a class="button"
+            <h3>
+                Executive Analytics Dashboard
+            </h3>
+
+            <p class="project-label">
+                Business Intelligence
+            </p>
+
+            <p>
+                Interactive Power BI dashboard designed to
+                provide executives and business leaders with
+                actionable performance insights.
+            </p>
+
+            <div class="technology-list">
+
+                <span class="tag">Power BI</span>
+                <span class="tag">DAX</span>
+                <span class="tag">Data Modeling</span>
+                <span class="tag">Analytics</span>
+
+            </div>
+
+            <a class="text-link"
                href="projects/power-bi-executive-dashboard.html">
-                Coming Soon
+
+                Coming Soon →
+
             </a>
 
-        </div>
+        </article>
 
 
-        <!-- Project 5 -->
+        <!-- =================================================
+             PROJECT 04
+             ================================================= -->
 
-        <div class="card">
+        <article class="project-card">
 
-            <h3>Financial Analytics & Modeling</h3>
-
-            <p>
-                Data-driven financial analysis and modeling solution
-                designed to improve planning, opportunity analysis,
-                and decision-making.
+            <p class="project-number">
+                04
             </p>
 
-            <a class="button"
+            <h3>
+                Financial Analytics &amp; Modeling
+            </h3>
+
+            <p class="project-label">
+                Financial Analytics
+            </p>
+
+            <p>
+                Data-driven financial analysis and modeling
+                solution designed to improve planning,
+                opportunity analysis, and decision-making.
+            </p>
+
+            <div class="technology-list">
+
+                <span class="tag">Financial Analysis</span>
+                <span class="tag">Data Modeling</span>
+                <span class="tag">Analytics</span>
+
+            </div>
+
+            <a class="text-link"
                href="#">
-                Coming Soon
+
+                Coming Soon →
+
             </a>
 
-        </div>
+        </article>
 
 
-        <!-- Project 6 -->
+        <!-- =================================================
+             PROJECT 05
+             ================================================= -->
 
-        <div class="card">
+        <article class="project-card">
 
-            <h3>ETL & Data Integration</h3>
+            <p class="project-number">
+                05
+            </p>
+
+            <h3>
+                ETL &amp; Data Integration
+            </h3>
+
+            <p class="project-label">
+                Data Engineering
+            </p>
 
             <p>
                 End-to-end data integration and transformation
@@ -211,71 +419,225 @@
                 and reporting.
             </p>
 
-            <a class="button"
+            <div class="technology-list">
+
+                <span class="tag">SQL</span>
+                <span class="tag">ETL</span>
+                <span class="tag">Data Integration</span>
+                <span class="tag">Reporting</span>
+
+            </div>
+
+            <a class="text-link"
                href="projects/etl-data-integration.html">
-                Coming Soon
+
+                Coming Soon →
+
             </a>
 
-        </div>
+        </article>
+
+
+        <!-- =================================================
+             PROJECT 06
+             ================================================= -->
+
+        <article class="project-card">
+
+            <p class="project-number">
+                06
+            </p>
+
+            <h3>
+                Additional Analytics Solutions
+            </h3>
+
+            <p class="project-label">
+                Data &amp; Business Solutions
+            </p>
+
+            <p>
+                Additional examples of data analysis,
+                reporting, process improvement, automation,
+                and business-focused technology solutions.
+            </p>
+
+            <div class="technology-list">
+
+                <span class="tag">Analytics</span>
+                <span class="tag">Automation</span>
+                <span class="tag">BI</span>
+                <span class="tag">Data</span>
+
+            </div>
+
+            <a class="text-link"
+               href="#">
+
+                Coming Soon →
+
+            </a>
+
+        </article>
+
 
     </div>
 
+</div>
+```
+
 </section>
 
+<!-- =====================================================
+     SECTION DIVIDER
+     ===================================================== -->
 
-<section>
+<div class="section-divider secondary"
+     aria-hidden="true">
 
-    <h2>Project Methodology</h2>
+```
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+```
 
-    <p>
-        Each project is documented using a consistent
-        business-focused framework:
-    </p>
+</div>
 
-    <div class="card-grid">
+<!-- =====================================================
+     PROJECT METHODOLOGY
+     ===================================================== -->
 
-        <div class="card">
-            <h3>01. Problem</h3>
+<section class="approach">
+
+```
+<div class="container">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Methodology
+        </p>
+
+        <h2>
+            Project Methodology
+        </h2>
+
+        <p>
+            Each project is documented using a consistent,
+            business-focused framework that connects the
+            technical solution to measurable business value.
+        </p>
+
+    </div>
+
+
+    <div class="process-grid">
+
+
+        <!-- Step 01 -->
+
+        <div class="process-step">
+
+            <span>
+                01
+            </span>
+
+            <h3>
+                Problem
+            </h3>
+
             <p>
-                Define the business problem and current-state process.
+                Define the business problem, objectives,
+                requirements, and current-state process.
             </p>
+
         </div>
 
-        <div class="card">
-            <h3>02. Data</h3>
+
+        <!-- Step 02 -->
+
+        <div class="process-step">
+
+            <span>
+                02
+            </span>
+
+            <h3>
+                Data
+            </h3>
+
             <p>
-                Identify data sources, quality issues, and analytical
+                Identify data sources, quality issues,
+                process dependencies, and analytical
                 requirements.
             </p>
+
         </div>
 
-        <div class="card">
-            <h3>03. Solution</h3>
+
+        <!-- Step 03 -->
+
+        <div class="process-step">
+
+            <span>
+                03
+            </span>
+
+            <h3>
+                Solution
+            </h3>
+
             <p>
-                Design and implement the data, AI, analytics, or
-                automation solution.
+                Design and implement the appropriate data,
+                AI, analytics, or automation solution.
             </p>
+
         </div>
 
-        <div class="card">
-            <h3>04. Results</h3>
+
+        <!-- Step 04 -->
+
+        <div class="process-step">
+
+            <span>
+                04
+            </span>
+
+            <h3>
+                Results
+            </h3>
+
             <p>
-                Measure the improvement and communicate the resulting
-                business value.
+                Measure improvement and communicate the
+                resulting business value and impact.
             </p>
+
         </div>
+
 
     </div>
 
+</div>
+```
+
 </section>
 
-</main>
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
 
 <footer>
 
-<p>
-    © 2026 Your Name
-</p>
+```
+<div class="footer-content">
+
+    <p>
+        © 2026 Your Name
+    </p>
+
+</div>
+```
 
 </footer>
 
