@@ -1636,28 +1636,32 @@ a:focus-visible {
         padding:
             5px 9px;
     }
+}
 
 /* =========================================
-   FOUR DIAMOND SECTION DIVIDER
-========================================= */
+   SECTION DIVIDER
+   ========================================= */
 
 .section-divider {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin: 40px 0 70px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 15px !important;
+    width: 100% !important;
+    height: 50px !important;
+    margin: 40px 0 !important;
+    background: transparent !important;
 }
 
 .section-divider span {
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    display: block;
-    transform: rotate(45deg);
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    background-color: #000000 !important;
+    opacity: 1 !important;
+    transform: rotate(45deg) !important;
 }
 
-
-
-}
 
