@@ -1034,7 +1034,7 @@ section .container {
 }
 
 .approach .section-heading h2 {
-    color: white;
+    color: #000000;
 }
 
 .approach .section-heading p:not(.eyebrow) {
