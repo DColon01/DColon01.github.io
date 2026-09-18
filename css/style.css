@@ -1685,3 +1685,104 @@ a:focus-visible {
     transform: rotate(45deg);
 }
 
+/* =========================================================
+   SECTION DIVIDER
+   Horizontal Lines + Four Diamonds
+   ========================================================= */
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+
+    margin: 45px 0;
+
+    padding: 0 24px;
+}
+
+/* Left and right horizontal lines */
+
+.section-divider::before,
+.section-divider::after {
+    content: "";
+
+    flex: 1;
+
+    max-width: 220px;
+
+    height: 1px;
+
+    background: var(--border);
+}
+
+/* Four diamond elements */
+
+.section-divider span {
+    display: block;
+
+    width: 8px;
+    height: 8px;
+
+    flex: 0 0 8px;
+
+    background: var(--primary);
+
+    transform: rotate(45deg);
+}
+
+
+/* =========================================================
+   DARK SECTION DIVIDER
+   For use on dark backgrounds
+   ========================================================= */
+
+.section-divider.dark::before,
+.section-divider.dark::after {
+    background: rgba(255, 255, 255, 0.20);
+}
+
+.section-divider.dark span {
+    background: #60a5fa;
+}
+
+
+/* =========================================================
+   LARGE DIVIDER
+   More breathing room between major sections
+   ========================================================= */
+
+.section-divider.large {
+    margin: 65px 0;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .section-divider {
+        gap: 9px;
+
+        margin: 35px 0;
+
+        padding: 0 18px;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+        max-width: 100px;
+    }
+
+    .section-divider span {
+        width: 7px;
+        height: 7px;
+
+        flex-basis: 7px;
+    }
+
+}
