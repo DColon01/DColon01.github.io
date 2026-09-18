@@ -1669,7 +1669,7 @@ a:focus-visible {
    FOUR DIAMOND SECTION DIVIDER
 ========================================= */
 
-.section-divider {
+.section-divider.primary {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1677,7 +1677,7 @@ a:focus-visible {
     margin: 20px 0 70px;
 }
 
-.section-divider span {
+.section-divider.primary span {
     width: 7px;
     height: 7px;
     background-color: #000000;
