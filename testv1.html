@@ -1,0 +1,1642 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Executive case study: AI-powered CARA report automation using Microsoft Power Platform, AI Builder OCR, SharePoint, Excel Office Scripts, and automated notifications." />
+  <title>CARA Automation | Featured Project Case Study</title>
+
+  <style>
+    /* =====================================================
+       CARA AUTOMATION | SINGLE-FILE PORTFOLIO
+       Customize your name, links, and contact information.
+       ===================================================== */
+
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --surface: #111a2e;
+      --surface-2: #17233b;
+      --text: #edf3ff;
+      --muted: #9aabc7;
+      --border: rgba(157, 180, 219, 0.16);
+      --accent: #78a9ff;
+      --accent-2: #70e1c1;
+      --accent-soft: rgba(120, 169, 255, 0.12);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+      --nav: rgba(11, 16, 32, 0.84);
+      --radius: 20px;
+      --max-width: 1160px;
+    }
+
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg: #f5f7fc;
+      --surface: #ffffff;
+      --surface-2: #edf2fb;
+      --text: #17223b;
+      --muted: #5e6d87;
+      --border: rgba(35, 55, 95, 0.14);
+      --accent: #245fce;
+      --accent-2: #087e69;
+      --accent-soft: rgba(36, 95, 206, 0.09);
+      --shadow: 0 18px 50px rgba(29, 48, 85, 0.09);
+      --nav: rgba(245, 247, 252, 0.88);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 80% 0%, rgba(72, 119, 220, 0.12), transparent 34%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      transition: background .25s, color .25s;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    button:focus-visible, a:focus-visible, [tabindex]:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #071020;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 44px));
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 92px 0;
+    }
+
+    .section-sm {
+      padding: 66px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      color: var(--accent-2);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.16;
+      letter-spacing: -.035em;
+    }
+
+    h1 {
+      max-width: 820px;
+      margin-bottom: 22px;
+      font-size: clamp(2.7rem, 7vw, 5.4rem);
+      font-weight: 800;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+    }
+
+    h3 {
+      font-size: 1.2rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(110deg, var(--accent), var(--accent-2));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.18rem);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: .85rem;
+    }
+
+    .navbar {
+      position: sticky;
+      z-index: 100;
+      top: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--nav);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 37px;
+      height: 37px;
+      border-radius: 12px;
+      color: #071020;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 23px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: .87rem;
+      font-weight: 650;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .theme-btn, .menu-btn {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      background: var(--surface);
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .theme-btn:hover, .menu-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .menu-btn {
+      display: none;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 108px 0 86px;
+    }
+
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      top: 40px;
+      right: -160px;
+      width: 520px;
+      height: 520px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 65px rgba(120, 169, 255, .025),
+        0 0 0 130px rgba(120, 169, 255, .02);
+      content: "";
+      pointer-events: none;
+    }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 28px;
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 12px var(--accent-2);
+    }
+
+    .hero-copy {
+      max-width: 790px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin: 30px 0 46px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 12px 19px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary {
+      border-color: transparent;
+      background: linear-gradient(110deg, var(--accent), var(--accent-2));
+      color: #071020;
+    }
+
+    .hero-footnote {
+      max-width: 660px;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 35px;
+    }
+
+    .metric {
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .metric-value {
+      display: block;
+      margin-bottom: 7px;
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      font-weight: 850;
+      letter-spacing: -.05em;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: .83rem;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 36px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+    }
+
+    .case-layout {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 22px;
+    }
+
+    .panel {
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .problem-list {
+      display: grid;
+      gap: 13px;
+      padding: 0;
+      margin: 20px 0 0;
+      list-style: none;
+    }
+
+    .problem-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .check {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent-2);
+      font-weight: 850;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .project-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .project-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 1.2rem;
+      font-weight: 850;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .74rem;
+      font-weight: 700;
+    }
+
+    .project-card p {
+      color: var(--muted);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0 23px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: .76rem;
+      font-weight: 650;
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 17px;
+      margin-top: auto;
+      padding-top: 17px;
+      border-top: 1px solid var(--border);
+    }
+
+    .text-link {
+      color: var(--accent);
+      font-size: .88rem;
+      font-weight: 750;
+    }
+
+    .text-link:hover {
+      text-decoration: underline;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .skill-group {
+      padding: 21px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .skill-group h3 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+
+    .skill-group .tag-list {
+      margin-bottom: 0;
+    }
+
+    .diagram-shell {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .diagram-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .diagram-toolbar p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .filter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: transparent;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .diagram-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(240px, .85fr);
+      align-items: stretch;
+    }
+
+    .diagram-canvas {
+      min-width: 0;
+      padding: 16px;
+      border-right: 1px solid var(--border);
+      background-image: radial-gradient(var(--border) 1px, transparent 1px);
+      background-size: 19px 19px;
+    }
+
+    .diagram-canvas svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 350px;
+      overflow: visible;
+    }
+
+    .flow-line {
+      fill: none;
+      stroke: var(--muted);
+      stroke-width: 1.8;
+      stroke-dasharray: 5 5;
+      opacity: .65;
+      marker-end: url(#arrow);
+    }
+
+    .flow-node {
+      cursor: pointer;
+      outline: none;
+      transition: opacity .2s;
+    }
+
+    .flow-node rect {
+      fill: var(--surface-2);
+      stroke: var(--border);
+      stroke-width: 1.5;
+      rx: 12;
+      transition: stroke .2s, fill .2s;
+    }
+
+    .flow-node text {
+      fill: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    .flow-node .node-subtitle {
+      fill: var(--muted);
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    .flow-node:hover rect, .flow-node:focus rect,
+    .flow-node.selected rect {
+      stroke: var(--accent);
+      stroke-width: 2.5;
+      fill: var(--accent-soft);
+    }
+
+    .flow-node.filtered-out {
+      opacity: .12;
+      pointer-events: none;
+    }
+
+    .diagram-info {
+      padding: 27px 23px;
+    }
+
+    .info-number {
+      display: inline-grid;
+      place-items: center;
+      width: 39px;
+      height: 39px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 850;
+    }
+
+    .diagram-info h3 {
+      margin-bottom: 12px;
+    }
+
+    .diagram-info p {
+      color: var(--muted);
+      font-size: .91rem;
+    }
+
+    .info-meta {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .info-meta strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: .78rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .diagram-hint {
+      padding: 12px 22px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .impact-card {
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .impact-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .impact-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .quote-panel {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-2);
+      border-radius: 4px 18px 18px 4px;
+      background: var(--surface);
+    }
+
+    .quote-panel p {
+      margin-bottom: 0;
+      font-size: clamp(1.15rem, 2.5vw, 1.6rem);
+      font-weight: 650;
+      letter-spacing: -.02em;
+    }
+
+    .contact-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 35px;
+      padding: clamp(25px, 5vw, 50px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(120, 169, 255, .14), transparent 45%),
+        var(--surface);
+    }
+
+    .contact-panel h2 {
+      max-width: 570px;
+    }
+
+    .contact-panel p {
+      max-width: 590px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 27px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .reveal {
+      animation: rise .7s both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        gap: 13px;
+      }
+
+      .nav-links a {
+        font-size: .79rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .diagram-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .diagram-canvas {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .diagram-canvas svg {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        width: min(100% - 30px, var(--max-width));
+      }
+
+      .section {
+        padding: 68px 0;
+      }
+
+      .hero {
+        padding: 73px 0 55px;
+      }
+
+      .nav-inner {
+        min-height: 65px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .menu-btn {
+        display: inline-grid;
+      }
+
+      .nav-controls {
+        display: flex;
+        gap: 8px;
+        margin-left: auto;
+      }
+
+      .nav-links {
+        display: none;
+        order: 3;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding-bottom: 12px;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 11px 4px;
+        border-top: 1px solid var(--border);
+        font-size: .92rem;
+      }
+
+      .metrics, .impact-grid, .project-grid, .case-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .metric {
+        padding: 19px;
+      }
+
+      .contact-panel {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .diagram-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .diagram-canvas {
+        padding: 5px;
+      }
+
+      .diagram-canvas svg {
+        min-height: 0;
+      }
+
+      .diagram-info {
+        padding: 23px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVIGATION -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#about" aria-label="Portfolio home">
+        <span class="brand-mark">AI</span>
+        <span>Automation Portfolio</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button class="theme-btn" id="themeToggle"
+          aria-label="Switch to light theme" title="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">☼</span>
+        </button>
+        <button class="menu-btn" id="menuToggle"
+          aria-label="Open navigation menu" aria-expanded="false"
+          aria-controls="navLinks">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="about">
+      <div class="container">
+        <div class="hero-copy reveal">
+          <div class="availability">
+            <span class="status-dot"></span>
+            Featured case study · Intelligent process automation
+          </div>
+
+          <p class="eyebrow">AI · Microsoft Power Platform · Business Impact</p>
+
+          <h1>
+            Turning document-heavy processes into
+            <span class="gradient-text">intelligent automation.</span>
+          </h1>
+
+          <p class="lead">
+            I design technology-driven solutions that streamline business
+            operations, improve data quality, and give teams more time to
+            focus on strategic work. This featured project transforms
+            Criticality Analysis and Risk Assessment (CARA) report preparation
+            using AI-powered document extraction and automated reporting.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">
+              Explore the case study <span aria-hidden="true">↘</span>
+            </a>
+            <a class="btn" href="#architecture">
+              Explore the architecture <span aria-hidden="true">⌘</span>
+            </a>
+          </div>
+
+          <p class="hero-footnote">
+            Featured solution: PDF/image ingestion → AI Builder OCR →
+            validated data extraction → Excel automation → report delivery.
+          </p>
+        </div>
+
+        <div class="metrics" aria-label="Project highlights">
+          <article class="metric">
+            <span class="metric-value gradient-text">~30 min</span>
+            <span class="metric-label">Previous manual preparation time</span>
+          </article>
+          <article class="metric">
+            <span class="metric-value gradient-text">Few min</span>
+            <span class="metric-label">Targeted automated preparation time</span>
+          </article>
+          <article class="metric">
+            <span class="metric-value gradient-text">100%</span>
+            <span class="metric-label">Reported accuracy for the completed solution</span>
+          </article>
+        </div>
+        <p class="small muted" style="margin:12px 0 0">
+          Metrics reflect the project results provided for this case study.
+          Confirm the measurement method and validation scope before external publication.
+        </p>
+      </div>
+    </section>
+
+    <!-- EXECUTIVE CASE STUDY -->
+    <section class="section" id="case-study">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Executive summary</p>
+          <h2>Less manual effort. <span class="gradient-text">More operational value.</span></h2>
+          <p>
+            An AI-powered workflow that converts unstructured document
+            content into structured, validated, and formatted CARA reports
+            with significantly less manual intervention.
+          </p>
+        </div>
+
+        <div class="case-layout">
+          <article class="panel">
+            <h3>The business challenge</h3>
+            <p class="muted">
+              Preparing CARA spreadsheets required manually reviewing source
+              PDFs or images, identifying relevant information, transferring
+              data into Excel templates, formatting outputs, and distributing
+              completed reports.
+            </p>
+            <ul class="problem-list">
+              <li>
+                <span class="check">!</span>
+                <span>Repetitive data identification and spreadsheet entry.</span>
+              </li>
+              <li>
+                <span class="check">!</span>
+                <span>Manual formatting and preparation of standardized reports.</span>
+              </li>
+              <li>
+                <span class="check">!</span>
+                <span>Potential for transcription errors, rework, and inconsistent outputs.</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>The solution</h3>
+            <p class="muted">
+              A Microsoft Power Automate workflow integrates AI Builder
+              Text Recognition, bounding-box-based content identification,
+              SharePoint-hosted Excel templates, Office Scripts, validation,
+              exception handling, notifications, and email delivery.
+            </p>
+            <ul class="problem-list">
+              <li>
+                <span class="check">✓</span>
+                <span>Extract document text and identify relevant content dynamically.</span>
+              </li>
+              <li>
+                <span class="check">✓</span>
+                <span>Populate and format the target spreadsheet automatically.</span>
+              </li>
+              <li>
+                <span class="check">✓</span>
+                <span>Validate data and notify stakeholders of completion or exceptions.</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Selected work</p>
+          <h2>Featured <span class="gradient-text">project portfolio.</span></h2>
+          <p>
+            A business-focused view of the solution, its implementation
+            components, and opportunities for future development.
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-top">
+              <div class="project-icon" aria-hidden="true">AI</div>
+              <span class="pill">Featured project</span>
+            </div>
+            <h3>AI-Powered CARA Report Automation</h3>
+            <p>
+              Automates document ingestion, OCR extraction, spatial content
+              identification, Excel template population, formatting, data
+              validation, exception notifications, and final report delivery.
+              Reduces preparation time from approximately 30 minutes to a few
+              minutes, with 100% reported accuracy.
+            </p>
+            <div class="tag-list" aria-label="Technologies">
+              <span class="tag">Power Automate</span>
+              <span class="tag">AI Builder OCR</span>
+              <span class="tag">SharePoint</span>
+              <span class="tag">Office Scripts</span>
+              <span class="tag">Excel</span>
+            </div>
+            <div class="project-links">
+              <a class="text-link" href="#architecture">
+                View architecture ↗
+              </a>
+              <!-- Replace # with your published demo URL when available. -->
+              <a class="text-link" href="https://github.com/YOUR-USERNAME/YOUR-REPOSITORY"
+                target="_blank" rel="noopener noreferrer">
+                GitHub repository ↗
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-top">
+              <div class="project-icon" aria-hidden="true">↗</div>
+              <span class="pill">Portfolio foundation</span>
+            </div>
+            <h3>Interactive Automation Architecture</h3>
+            <p>
+              A self-contained architecture visualization that explains
+              system components, processing stages, validation checkpoints,
+              and downstream reporting. Designed to communicate technical
+              decisions clearly to both executive and engineering audiences.
+            </p>
+            <div class="tag-list">
+              <span class="tag">HTML5</span>
+              <span class="tag">SVG</span>
+              <span class="tag">Vanilla JavaScript</span>
+              <span class="tag">Responsive CSS</span>
+            </div>
+            <div class="project-links">
+              <a class="text-link" href="#architecture">Explore diagram ↗</a>
+              <a class="text-link" href="#contact">Discuss the solution ↗</a>
+            </div>
+          </article>
+        </div>
+
+        <p class="small muted" style="margin-top:20px">
+          The second card documents the portfolio's interactive architecture
+          component; it is not a claim of a separate production deployment.
+          Add additional project cards as your portfolio grows.
+        </p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Technology stack</p>
+          <h2>Built around <span class="gradient-text">business outcomes.</span></h2>
+          <p>
+            The core technologies and solution capabilities demonstrated by
+            the CARA automation project.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-group">
+            <h3>Automation</h3>
+            <div class="tag-list">
+              <span class="tag">Power Automate</span>
+              <span class="tag">Cloud flows</span>
+              <span class="tag">Workflow orchestration</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <h3>AI & Document Processing</h3>
+            <div class="tag-list">
+              <span class="tag">AI Builder</span>
+              <span class="tag">OCR</span>
+              <span class="tag">Bounding boxes</span>
+              <span class="tag">Text extraction</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <h3>Data & Reporting</h3>
+            <div class="tag-list">
+              <span class="tag">Excel</span>
+              <span class="tag">Office Scripts</span>
+              <span class="tag">SharePoint</span>
+              <span class="tag">Data validation</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <h3>Reliability & Delivery</h3>
+            <div class="tag-list">
+              <span class="tag">Error handling</span>
+              <span class="tag">Notifications</span>
+              <span class="tag">Email delivery</span>
+              <span class="tag">Process improvement</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE ARCHITECTURE -->
+    <section class="section" id="architecture">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Interactive system architecture</p>
+          <h2>Follow the data from <span class="gradient-text">document to delivery.</span></h2>
+          <p>
+            Select any node to inspect its responsibility. Use the filters
+            to focus on document ingestion, AI extraction, processing,
+            validation, or report delivery.
+          </p>
+        </div>
+
+        <div class="diagram-shell">
+          <div class="diagram-toolbar">
+            <div>
+              <strong>End-to-end CARA workflow</strong>
+              <p>Illustrative logical architecture · Select a component</p>
+            </div>
+            <div class="filter-list" role="group" aria-label="Filter diagram nodes">
+              <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-btn" data-filter="input" aria-pressed="false">Input</button>
+              <button class="filter-btn" data-filter="ai" aria-pressed="false">AI / OCR</button>
+              <button class="filter-btn" data-filter="process" aria-pressed="false">Processing</button>
+              <button class="filter-btn" data-filter="output" aria-pressed="false">Output</button>
+            </div>
+          </div>
+
+          <div class="diagram-layout">
+            <div class="diagram-canvas">
+              <svg viewBox="0 0 560 560" role="group"
+                aria-label="Interactive CARA workflow architecture diagram">
+                <defs>
+                  <marker id="arrow" markerWidth="8" markerHeight="8"
+                    refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L6,3 L0,6 Z" fill="currentColor"></path>
+                  </marker>
+                </defs>
+
+                <!-- Connectors -->
+                <path class="flow-line" d="M280 74 V101" />
+                <path class="flow-line" d="M280 159 V185" />
+                <path class="flow-line" d="M280 243 V269" />
+                <path class="flow-line" d="M280 327 V353" />
+                <path class="flow-line" d="M280 411 V437" />
+                <path class="flow-line" d="M280 495 V517" />
+
+                <!-- Nodes -->
+                <g class="flow-node selected" tabindex="0" role="button"
+                  aria-label="Source documents"
+                  data-id="source" data-category="input"
+                  transform="translate(170 18)">
+                  <rect width="220" height="56"></rect>
+                  <text x="110" y="23">01 · Source documents</text>
+                  <text class="node-subtitle" x="110" y="40">PDFs and images</text>
+                </g>
+
+                <g class="flow-node" tabindex="0" role="button"
+                  aria-label="Power Automate ingestion"
+                  data-id="ingest" data-category="input"
+                  transform="translate(170 101)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">02 · Power Automate</text>
+                  <text class="node-subtitle" x="110" y="42">Trigger and orchestration</text>
+                </g>
+
+                <g class="flow-node" tabindex="0" role="button"
+                  aria-label="AI Builder OCR"
+                  data-id="ocr" data-category="ai"
+                  transform="translate(170 185)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">03 · AI Builder OCR</text>
+                  <text class="node-subtitle" x="110" y="42">Text and bounding boxes</text>
+                </g>
+
+                <g class="flow-node" tabindex="0" role="button"
+                  aria-label="Content identification"
+                  data-id="identify" data-category="ai"
+                  transform="translate(170 269)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">04 · Content identification</text>
+                  <text class="node-subtitle" x="110" y="42">Locate relevant data fields</text>
+                </g>
+
+                <g class="flow-node" tabindex="0" role="button"
+                  aria-label="Data validation"
+                  data-id="validate" data-category="process"
+                  transform="translate(170 353)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">05 · Data validation</text>
+                  <text class="node-subtitle" x="110" y="42">Integrity and exception checks</text>
+                </g>
+
+                <g class="flow-node" tabindex="0" role="button"
+                  aria-label="Excel report generation"
+                  data-id="excel" data-category="process"
+                  transform="translate(170 437)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">06 · Excel automation</text>
+                  <text class="node-subtitle" x="110" y="42">SharePoint + Office Scripts</text>
+                </g>
+
+                <g class="flow-node" tabindex="0" role="button"
+                  aria-label="Report delivery"
+                  data-id="delivery" data-category="output"
+                  transform="translate(170 517)">
+                  <rect width="220" height="38"></rect>
+                  <text x="110" y="24">07 · Report delivery</text>
+                </g>
+              </svg>
+            </div>
+
+            <aside class="diagram-info" aria-live="polite" aria-atomic="true">
+              <span class="info-number" id="infoNumber">01</span>
+              <p class="eyebrow">Component details</p>
+              <h3 id="infoTitle">Source documents</h3>
+              <p id="infoDescription">
+                PDF and image files provide the source information for CARA
+                report preparation. The workflow begins when a document is
+                made available to the configured automation.
+              </p>
+
+              <div class="info-meta">
+                <strong>Role in the workflow</strong>
+                <p id="infoRole">
+                  Accept source material for downstream processing.
+                </p>
+              </div>
+              <div class="info-meta">
+                <strong>Key technology</strong>
+                <p id="infoTechnology">PDF / image input</p>
+              </div>
+            </aside>
+          </div>
+
+          <div class="diagram-hint">
+            Tip: Use Tab and Enter/Space to navigate and select nodes with your
+            keyboard. The diagram represents the logical flow; connectors and
+            implementation details can be adjusted to match your deployed solution.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUSINESS VALUE -->
+    <section class="section" id="impact">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Business value</p>
+          <h2>Efficiency that creates <span class="gradient-text">room for higher-value work.</span></h2>
+          <p>
+            The solution's value extends beyond faster spreadsheet preparation
+            to repeatability, consistency, and a foundation for broader automation.
+          </p>
+        </div>
+
+        <div class="impact-grid">
+          <article class="impact-card">
+            <div class="project-icon" aria-hidden="true">↗</div>
+            <h3>Productivity</h3>
+            <p>
+              Reduces routine preparation from approximately 30 minutes to a
+              few minutes, freeing up time for analysis and other higher-level activities.
+            </p>
+          </article>
+          <article class="impact-card">
+            <div class="project-icon" aria-hidden="true">✓</div>
+            <h3>Data quality</h3>
+            <p>
+              Reported 100% accuracy, supported by structured extraction,
+              validation steps, standardized templates, and exception handling.
+            </p>
+          </article>
+          <article class="impact-card">
+            <div class="project-icon" aria-hidden="true">◎</div>
+            <h3>Scalable operations</h3>
+            <p>
+              Creates a repeatable workflow with opportunities to extend
+              automation to additional document types and reporting processes.
+            </p>
+          </article>
+        </div>
+
+        <div style="margin-top:22px" class="quote-panel">
+          <p>
+            “Automate the repetitive work so people can focus on decisions,
+            insight, and higher-value outcomes.”
+          </p>
+        </div>
+
+        <p class="small muted" style="margin-top:18px">
+          Potential cost savings depend on document volumes, labor costs,
+          licensing, exception rates, and ongoing support. Quantify these
+          factors before presenting a financial return or ROI figure.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-panel">
+          <div>
+            <p class="eyebrow">Let's connect</p>
+            <h2>Interested in intelligent automation?</h2>
+            <p>
+              I'm interested in solutions that combine AI, process automation,
+              and practical business outcomes. Connect with me to discuss
+              workflow improvement, document intelligence, and scalable reporting.
+            </p>
+          </div>
+          <div class="hero-actions" style="margin:0;flex-shrink:0">
+            <!-- Replace with your real email address. -->
+            <a class="btn btn-primary"
+              href="mailto:YOUR-EMAIL@example.com?subject=CARA%20Automation%20Case%20Study">
+              Contact me ↗
+            </a>
+            <!-- Replace with your GitHub username. -->
+            <a class="btn" href="https://github.com/YOUR-USERNAME"
+              target="_blank" rel="noopener noreferrer">
+              GitHub profile ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="currentYear"></span> · Automation Portfolio</span>
+      <span>Designed for clarity. Built for impact.</span>
+      <a class="text-link" href="#about">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    /* =====================================================
+       THEME TOGGLE
+       ===================================================== */
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      const isDark = theme === "dark";
+      themeIcon.textContent = isDark ? "☼" : "☾";
+      themeToggle.setAttribute(
+        "aria-label",
+        isDark ? "Switch to light theme" : "Switch to dark theme"
+      );
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme || "dark";
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+
+    /* =====================================================
+       MOBILE NAVIGATION
+       ===================================================== */
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+      menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+    /* =====================================================
+       INTERACTIVE ARCHITECTURE DIAGRAM
+       ===================================================== */
+    const nodeData = {
+      source: {
+        number: "01",
+        title: "Source documents",
+        description:
+          "PDF and image files provide the source information for CARA report preparation. The workflow begins when a document is made available to the configured automation.",
+        role: "Accept source material for downstream processing.",
+        technology: "PDF / image input",
+        category: "input"
+      },
+      ingest: {
+        number: "02",
+        title: "Power Automate",
+        description:
+          "Coordinates the workflow, passes information between services, and orchestrates the processing steps according to the configured flow and trigger.",
+        role: "Manage workflow execution and component handoffs.",
+        technology: "Microsoft Power Automate",
+        category: "input"
+      },
+      ocr: {
+        number: "03",
+        title: "AI Builder OCR",
+        description:
+          "Recognizes text in the supplied documents and returns extraction results, including bounding-box coordinates that can help locate content within the document.",
+        role: "Convert document imagery into machine-readable text and spatial information.",
+        technology: "AI Builder Text Recognition",
+        category: "ai"
+      },
+      identify: {
+        number: "04",
+        title: "Content identification",
+        description:
+          "Uses recognized text and bounding-box coordinates to identify relevant workflow content and determine which extracted values should be used in the report.",
+        role: "Locate and map relevant document content to expected fields.",
+        technology: "OCR output and coordinate-based rules",
+        category: "ai"
+      },
+      validate: {
+        number: "05",
+        title: "Data validation",
+        description:
+          "Checks extracted values against the configured integrity rules. Invalid, missing, or unexpected data can be routed through error handling and notifications rather than silently accepted.",
+        role: "Protect report quality and surface exceptions.",
+        technology: "Power Automate validation and error handling",
+        category: "process"
+      },
+      excel: {
+        number: "06",
+        title: "Excel automation",
+        description:
+          "Works with Excel templates hosted in SharePoint. Office Scripts populate designated cells, apply the required formatting, and prepare the report for distribution.",
+        role: "Generate a standardized, formatted CARA spreadsheet.",
+        technology: "SharePoint, Excel, and Office Scripts",
+        category: "process"
+      },
+      delivery: {
+        number: "07",
+        title: "Report delivery",
+        description:
+          "Distributes the completed report through email and can communicate workflow completion or exceptions to relevant stakeholders.",
+        role: "Deliver outputs and make workflow status visible.",
+        technology: "Email notifications and report distribution",
+        category: "output"
+      }
+    };
+
+    const nodes = [...document.querySelectorAll(".flow-node")];
+    const filterButtons = [...document.querySelectorAll(".filter-btn")];
+
+    const infoNumber = document.getElementById("infoNumber");
+    const infoTitle = document.getElementById("infoTitle");
+    const infoDescription = document.getElementById("infoDescription");
+    const infoRole = document.getElementById("infoRole");
+    const infoTechnology = document.getElementById("infoTechnology");
+
+    let activeFilter = "all";
+
+    function selectNode(node) {
+      const item = nodeData[node.dataset.id];
+      if (!item) return;
+
+      nodes.forEach(n => {
+        const selected = n === node;
+        n.classList.toggle("selected", selected);
+        n.setAttribute("aria-pressed", String(selected));
+      });
+
+      infoNumber.textContent = item.number;
+      infoTitle.textContent = item.title;
+      infoDescription.textContent = item.description;
+      infoRole.textContent = item.role;
+      infoTechnology.textContent = item.technology;
+    }
+
+    nodes.forEach(node => {
+      node.addEventListener("click", () => selectNode(node));
+
+      node.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectNode(node);
+        }
+      });
+    });
+
+    function applyFilter(filter) {
+      activeFilter = filter;
+
+      filterButtons.forEach(button => {
+        const active = button.dataset.filter === filter;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+
+      nodes.forEach(node => {
+        const matches =
+          filter === "all" || node.dataset.category === filter;
+        node.classList.toggle("filtered-out", !matches);
+      });
+
+      const selectedNode = nodes.find(node =>
+        node.classList.contains("selected")
+      );
+
+      if (
+        selectedNode &&
+        filter !== "all" &&
+        selectedNode.dataset.category !== filter
+      ) {
+        const firstMatch = nodes.find(
+          node => node.dataset.category === filter
+        );
+        if (firstMatch) selectNode(firstMatch);
+      }
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        applyFilter(button.dataset.filter);
+      });
+    });
+
+    /* =====================================================
+       FOOTER YEAR
+       ===================================================== */
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    /* =====================================================
+       INITIAL STATE
+       ===================================================== */
+    setTheme("dark");
+    selectNode(document.querySelector('[data-id="source"]'));
+  </script>
+</body>
+</html>
