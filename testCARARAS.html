@@ -1,0 +1,1059 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="AI-powered CARA and RAS workflow automation using Power Automate, AI Builder, Office Scripts, SharePoint, Excel, and Word.">
+  <title>CARA + RAS | AI Workflow Automation</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --surface: #121d30;
+      --surface-2: #18263b;
+      --text: #e8eef8;
+      --muted: #a5b4ca;
+      --border: #293a52;
+      --accent: #69b7ff;
+      --accent-2: #9c8cff;
+      --good: #5ee0b0;
+      --shadow: 0 16px 40px rgba(0,0,0,.18);
+    }
+
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-2: #edf3fa;
+      --text: #142238;
+      --muted: #52647d;
+      --border: #d6e0ec;
+      --accent: #075fc4;
+      --accent-2: #6848cb;
+      --good: #087f5b;
+      --shadow: 0 14px 34px rgba(20,34,56,.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 88px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", sans-serif;
+      transition: background .2s, color .2s;
+    }
+
+    a { color: var(--accent); }
+    button { font: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: -.04em;
+      font-size: 1.1rem;
+      white-space: nowrap;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: .88rem;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .theme-btn, .filter-btn, .reset-btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 12px;
+    }
+
+    .theme-btn { white-space: nowrap; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 88px 0 72px;
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(ellipse at 12% 10%, rgba(49,130,246,.15), transparent 48%),
+        radial-gradient(ellipse at 85% 30%, rgba(140,100,255,.12), transparent 42%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 18px 0;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1.02;
+      letter-spacing: -.065em;
+    }
+
+    .gradient-text {
+      color: var(--accent);
+      background: linear-gradient(100deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 800px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      font-weight: 750;
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #071322;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 46px;
+    }
+
+    .metric, .card, .skill-panel, .architecture-panel, .impact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .metric { padding: 20px; }
+
+    .metric-value {
+      font-size: clamp(1.55rem, 3vw, 2.3rem);
+      font-weight: 850;
+      letter-spacing: -.05em;
+      line-height: 1.2;
+    }
+
+    .metric-label {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    section { padding: 76px 0; }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      margin: 8px 0;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.12;
+      letter-spacing: -.045em;
+    }
+
+    .section-heading p { color: var(--muted); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .card { padding: 26px; }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+      letter-spacing: -.025em;
+    }
+
+    .card p { color: var(--muted); }
+
+    .step-label {
+      display: inline-block;
+      padding: 5px 9px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--accent);
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .card ul {
+      padding-left: 19px;
+      color: var(--muted);
+    }
+
+    .card li { margin: 8px 0; }
+
+    .callout {
+      margin-top: 20px;
+      padding: 18px 20px;
+      background: var(--surface-2);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .callout strong { color: var(--text); }
+
+    .architecture-panel {
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .architecture-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .filter-btn[aria-pressed="true"] {
+      color: var(--text);
+      border-color: var(--accent);
+      background: var(--surface-2);
+    }
+
+    .diagram-scroll {
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .diagram {
+      display: block;
+      width: 100%;
+      min-width: 690px;
+      height: auto;
+    }
+
+    .diagram .edge {
+      stroke: var(--muted);
+      stroke-width: 2;
+      opacity: .65;
+      fill: none;
+      marker-end: url(#arrow);
+      transition: opacity .2s;
+    }
+
+    .diagram .edge-label {
+      fill: var(--muted);
+      font-size: 11px;
+    }
+
+    .diagram .node {
+      cursor: pointer;
+      outline: none;
+      transition: opacity .2s;
+    }
+
+    .diagram .node rect {
+      fill: var(--surface-2);
+      stroke: var(--border);
+      stroke-width: 1.5;
+      rx: 12;
+      transition: stroke .2s, fill .2s;
+    }
+
+    .diagram .node text {
+      fill: var(--text);
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    .diagram .node .node-title {
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .diagram .node .node-subtitle {
+      font-size: 10px;
+      fill: var(--muted);
+    }
+
+    .diagram .node:hover rect,
+    .diagram .node:focus rect,
+    .diagram .node.selected rect {
+      stroke: var(--accent);
+      stroke-width: 2.5;
+    }
+
+    .diagram .node.selected rect { fill: var(--surface); }
+
+    .diagram .node.filtered-out,
+    .diagram .edge.filtered-out { opacity: .12; }
+
+    .node-details {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    .node-details h3 { margin: 0 0 6px; }
+    .node-details p { margin: 0; color: var(--muted); }
+
+    .diagram-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .impact-card { padding: 22px; }
+
+    .impact-card .icon {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .impact-card h3 { margin: 0 0 8px; }
+    .impact-card p { margin: 0; color: var(--muted); }
+
+    .skills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill {
+      padding: 8px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: .86rem;
+      font-weight: 650;
+    }
+
+    .contact-panel {
+      padding: clamp(24px, 5vw, 48px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background:
+        radial-gradient(ellipse at 90% 10%, rgba(105,183,255,.13), transparent 45%),
+        var(--surface);
+    }
+
+    .contact-panel h2 {
+      margin: 8px 0 12px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      letter-spacing: -.04em;
+    }
+
+    .contact-panel p { color: var(--muted); }
+
+    footer {
+      padding: 26px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 800px) {
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-2, .impact-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 64px; }
+      .nav-inner { padding-block: 12px; align-items: flex-start; }
+      .nav-links { gap: 10px; }
+    }
+
+    @media (max-width: 520px) {
+      .container { width: min(100% - 28px, 1120px); }
+      .nav-inner { flex-wrap: wrap; }
+      .nav-links { order: 3; width: 100%; }
+      .nav-links a { font-size: .8rem; }
+      .theme-btn { margin-left: auto; }
+      .metrics { gap: 9px; }
+      .metric { padding: 14px; }
+      .architecture-panel { padding: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">CARA <span>+</span> RAS</a>
+
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#workflows">Workflows</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#impact">Impact</a>
+        <a href="#skills">Skills</a>
+      </div>
+
+      <button class="theme-btn" id="themeToggle" type="button"
+              aria-label="Switch to light theme">☀ Light</button>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero">
+      <div class="container">
+        <span class="eyebrow">AI workflow automation · Microsoft Power Platform</span>
+
+        <h1>
+          From source data to
+          <span class="gradient-text">decision-ready documents.</span>
+        </h1>
+
+        <p class="hero-copy">
+          Connected CARA and RAS automation workflows that transform
+          unstructured source documents into validated Excel data and
+          standardized Word reports—reducing manual effort and improving
+          consistency across the reporting process.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#architecture">Explore the architecture ↘</a>
+          <a class="btn" href="#impact">Business impact</a>
+        </div>
+
+        <div class="metrics" aria-label="Project highlights">
+          <article class="metric">
+            <div class="metric-value">Minutes</div>
+            <div class="metric-label">CARA spreadsheet preparation, down from ~30 minutes</div>
+          </article>
+          <article class="metric">
+            <div class="metric-value">3–4 hrs</div>
+            <div class="metric-label">Manual RAS document process automated</div>
+          </article>
+          <article class="metric">
+            <div class="metric-value">2 stages</div>
+            <div class="metric-label">Connected data preparation and document generation</div>
+          </article>
+          <article class="metric">
+            <div class="metric-value">End-to-end</div>
+            <div class="metric-label">Extraction, validation, formatting, and delivery</div>
+          </article>
+        </div>
+      </div>
+    </header>
+
+    <section id="overview">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Executive overview</span>
+          <h2>One connected solution. Two automated workflows.</h2>
+          <p>
+            The solution automates sequential steps in the risk assessment
+            reporting lifecycle. CARA prepares and validates structured data;
+            RAS uses the CARA data to generate a standardized Word document.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="step-label">Stage 01 · Data preparation</span>
+            <h3>CARA: Extract, validate, and populate</h3>
+            <p>
+              An AI-powered Power Automate workflow uses AI Builder Text
+              Recognition (OCR) to extract information from PDFs and images.
+              Bounding box coordinates help identify relevant content for
+              populating SharePoint-hosted Excel templates.
+            </p>
+            <ul>
+              <li>OCR-based extraction from source files</li>
+              <li>Dynamic content identification using bounding boxes</li>
+              <li>Excel template population and formatting with Office Scripts</li>
+              <li>Data validation, error handling, and notifications</li>
+              <li>Automated email distribution of completed reports</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="step-label">Stage 02 · Document generation</span>
+            <h3>RAS: Transform data into a Word report</h3>
+            <p>
+              A second AI-powered Power Automate workflow extracts and
+              transforms Risk Assessment Summary data, using the prepared
+              CARA data as the input to produce a standardized Word document.
+            </p>
+            <ul>
+              <li>Uses CARA-prepared data in the downstream process</li>
+              <li>Transforms report information into a consistent structure</li>
+              <li>Automates Word document generation</li>
+              <li>Reduces repetitive manual document preparation</li>
+              <li>Frees staff to focus on analysis and decisions</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="callout">
+          <strong>Key design principle:</strong>
+          CARA is the upstream data-preparation stage. RAS is the downstream
+          document-generation stage. The value comes from connecting the two,
+          rather than treating them as unrelated automations.
+        </div>
+      </div>
+    </section>
+
+    <section id="workflows">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Implementation</span>
+          <h2>How the workflow delivers value</h2>
+          <p>
+            Each stage addresses a different source of manual effort while
+            contributing to a more consistent reporting process.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>01 / CARA automation</h3>
+            <p>
+              Converts information held in PDFs and images into structured
+              spreadsheet data suitable for the next workflow stage.
+            </p>
+            <ul>
+              <li><strong>Input:</strong> PDFs and image-based documents</li>
+              <li><strong>Intelligence:</strong> AI Builder OCR and bounding-box processing</li>
+              <li><strong>Processing:</strong> Power Automate and Office Scripts</li>
+              <li><strong>Output:</strong> Populated, formatted Excel template</li>
+              <li><strong>Controls:</strong> Validation, exception handling, notifications</li>
+            </ul>
+            <div class="callout">
+              <strong>Reported result</strong><br>
+              Preparation time reduced from approximately 30 minutes to just a few minutes.
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>02 / RAS automation</h3>
+            <p>
+              Uses the prepared CARA information to streamline creation of a
+              standardized Risk Assessment Summary Word document.
+            </p>
+            <ul>
+              <li><strong>Input:</strong> CARA-prepared data and RAS information</li>
+              <li><strong>Processing:</strong> Data extraction and transformation</li>
+              <li><strong>Orchestration:</strong> Power Automate and AI-powered processing</li>
+              <li><strong>Output:</strong> Standardized Word document</li>
+              <li><strong>Outcome:</strong> Less manual formatting and document preparation</li>
+            </ul>
+            <div class="callout">
+              <strong>Reported result</strong><br>
+              Automates a process that previously required approximately 3–4 hours of manual work.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Interactive system view</span>
+          <h2>Explore the solution architecture</h2>
+          <p>
+            Select a component to see its role in the connected workflow.
+            Use the filters to focus on data, AI, automation, or outputs.
+          </p>
+        </div>
+
+        <div class="architecture-panel">
+          <div class="architecture-toolbar">
+            <strong>Logical workflow architecture</strong>
+            <div class="filters" aria-label="Filter architecture nodes">
+              <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-btn" data-filter="data" aria-pressed="false">Data</button>
+              <button class="filter-btn" data-filter="ai" aria-pressed="false">AI / OCR</button>
+              <button class="filter-btn" data-filter="automation" aria-pressed="false">Automation</button>
+              <button class="filter-btn" data-filter="output" aria-pressed="false">Outputs</button>
+            </div>
+          </div>
+
+          <div class="diagram-scroll">
+            <svg class="diagram" viewBox="0 0 900 510"
+                 role="group" aria-label="Interactive CARA and RAS workflow diagram">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"></path>
+                </marker>
+              </defs>
+
+              <text x="18" y="22" fill="var(--accent)" font-size="13" font-weight="800">
+                STAGE 01 · CARA DATA PREPARATION
+              </text>
+
+              <path class="edge" data-links="source ocr" d="M155 88 H205"></path>
+              <path class="edge" data-links="ocr extraction" d="M335 88 H385"></path>
+              <path class="edge" data-links="extraction flow" d="M515 88 H565"></path>
+              <path class="edge" data-links="flow excel" d="M695 88 H745"></path>
+              <path class="edge" data-links="excel ras" d="M810 126 V185 H450 V225"></path>
+
+              <g class="node" data-id="source" data-category="data"
+                 tabindex="0" role="button" aria-label="Source documents">
+                <rect x="20" y="52" width="135" height="74"></rect>
+                <text class="node-title" x="87" y="82">PDFs / Images</text>
+                <text class="node-subtitle" x="87" y="101">Source files</text>
+              </g>
+
+              <g class="node" data-id="ocr" data-category="ai"
+                 tabindex="0" role="button" aria-label="AI Builder OCR">
+                <rect x="205" y="52" width="130" height="74"></rect>
+                <text class="node-title" x="270" y="82">AI Builder</text>
+                <text class="node-subtitle" x="270" y="101">Text Recognition</text>
+              </g>
+
+              <g class="node" data-id="extraction" data-category="ai"
+                 tabindex="0" role="button" aria-label="Bounding box content extraction">
+                <rect x="385" y="52" width="130" height="74"></rect>
+                <text class="node-title" x="450" y="82">Content</text>
+                <text class="node-subtitle" x="450" y="101">Bounding boxes</text>
+              </g>
+
+              <g class="node" data-id="flow" data-category="automation"
+                 tabindex="0" role="button" aria-label="Power Automate orchestration">
+                <rect x="565" y="52" width="130" height="74"></rect>
+                <text class="node-title" x="630" y="82">Power Automate</text>
+                <text class="node-subtitle" x="630" y="101">Orchestration</text>
+              </g>
+
+              <g class="node" data-id="excel" data-category="output"
+                 tabindex="0" role="button" aria-label="Excel template output">
+                <rect x="745" y="52" width="130" height="74"></rect>
+                <text class="node-title" x="810" y="82">Excel Template</text>
+                <text class="node-subtitle" x="810" y="101">Office Scripts</text>
+              </g>
+
+              <rect x="20" y="151" width="855" height="31"
+                    rx="8" fill="var(--surface-2)" stroke="var(--border)"></rect>
+              <text x="447" y="171" fill="var(--muted)" font-size="11"
+                    text-anchor="middle">
+                Validation · Error handling · Notifications · Email distribution
+              </text>
+
+              <text x="18" y="216" fill="var(--accent-2)" font-size="13" font-weight="800">
+                STAGE 02 · RAS DOCUMENT GENERATION
+              </text>
+
+              <path class="edge" data-links="ras transform" d="M450 275 V307"></path>
+              <path class="edge" data-links="transform word" d="M450 381 V411"></path>
+              <path class="edge" data-links="word delivery" d="M515 448 H565"></path>
+
+              <g class="node" data-id="ras" data-category="data"
+                 tabindex="0" role="button" aria-label="CARA data feeds RAS">
+                <rect x="320" y="225" width="260" height="50"></rect>
+                <text class="node-title" x="450" y="246">CARA data → RAS</text>
+                <text class="node-subtitle" x="450" y="263">Downstream input</text>
+              </g>
+
+              <g class="node" data-id="transform" data-category="automation"
+                 tabindex="0" role="button" aria-label="RAS data transformation">
+                <rect x="320" y="307" width="260" height="74"></rect>
+                <text class="node-title" x="450" y="337">RAS Processing</text>
+                <text class="node-subtitle" x="450" y="356">Extract · Transform · Map</text>
+              </g>
+
+              <g class="node" data-id="word" data-category="output"
+                 tabindex="0" role="button" aria-label="Standardized Word document">
+                <rect x="320" y="411" width="195" height="74"></rect>
+                <text class="node-title" x="417" y="441">Word Document</text>
+                <text class="node-subtitle" x="417" y="460">Standardized report</text>
+              </g>
+
+              <g class="node" data-id="delivery" data-category="output"
+                 tabindex="0" role="button" aria-label="Report delivery">
+                <rect x="565" y="411" width="195" height="74"></rect>
+                <text class="node-title" x="662" y="441">Report Delivery</text>
+                <text class="node-subtitle" x="662" y="460">Review / distribution</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="node-details" aria-live="polite" aria-atomic="true">
+            <h3 id="detailTitle">Select a workflow component</h3>
+            <p id="detailText">
+              Choose any node in the diagram to view its role in the overall process.
+            </p>
+          </div>
+
+          <p class="diagram-note">
+            Architecture is a conceptual representation based on the project
+            description, not a verified export of the production flows.
+            Confirm actual connectors, data stores, triggers, and delivery
+            mechanisms before publishing this diagram as an exact implementation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Business outcomes</span>
+          <h2>Less repetitive work. More capacity for analysis.</h2>
+          <p>
+            The combined workflows target manual effort at both spreadsheet
+            preparation and report creation.
+          </p>
+        </div>
+
+        <div class="impact-grid">
+          <article class="impact-card">
+            <div class="icon" aria-hidden="true">◷</div>
+            <h3>Faster preparation</h3>
+            <p>
+              CARA preparation drops from approximately 30 minutes to just
+              a few minutes, based on the reported workflow result.
+            </p>
+          </article>
+
+          <article class="impact-card">
+            <div class="icon" aria-hidden="true">▤</div>
+            <h3>Standardized reporting</h3>
+            <p>
+              RAS automates a 3–4-hour manual process to produce consistent,
+              structured Word documents.
+            </p>
+          </article>
+
+          <article class="impact-card">
+            <div class="icon" aria-hidden="true">✓</div>
+            <h3>Improved controls</h3>
+            <p>
+              Validation, exception handling, and notifications help identify
+              data issues and reduce avoidable manual rework.
+            </p>
+          </article>
+
+          <article class="impact-card">
+            <div class="icon" aria-hidden="true">↗</div>
+            <h3>Lower operating costs</h3>
+            <p>
+              Automation reduces time spent on repetitive data preparation
+              and document formatting.
+            </p>
+          </article>
+
+          <article class="impact-card">
+            <div class="icon" aria-hidden="true">◎</div>
+            <h3>Better use of expertise</h3>
+            <p>
+              Staff can redirect time toward risk analysis, interpretation,
+              and higher-value decisions.
+            </p>
+          </article>
+
+          <article class="impact-card">
+            <div class="icon" aria-hidden="true">⤴</div>
+            <h3>Reusable workflow design</h3>
+            <p>
+              A connected process provides a foundation for future refinements
+              and potential reuse across similar reporting workflows.
+            </p>
+          </article>
+        </div>
+
+        <div class="callout">
+          <strong>Measurement note:</strong>
+          The CARA timing is reported as approximately 30 minutes reduced to
+          a few minutes. The RAS process is described as a 3–4-hour manual
+          workflow that is automated. No exact RAS runtime or percentage
+          reduction is asserted because a post-automation duration was not provided.
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Technical capabilities</span>
+          <h2>Tools and engineering disciplines</h2>
+          <p>
+            A combination of workflow orchestration, document intelligence,
+            structured data processing, and operational controls.
+          </p>
+        </div>
+
+        <div class="skill-panel" style="padding:24px">
+          <div class="skills-wrap">
+            <span class="skill">Microsoft Power Automate</span>
+            <span class="skill">AI Builder OCR</span>
+            <span class="skill">Text Recognition</span>
+            <span class="skill">Bounding Box Processing</span>
+            <span class="skill">Office Scripts</span>
+            <span class="skill">SharePoint</span>
+            <span class="skill">Excel Templates</span>
+            <span class="skill">Word Document Automation</span>
+            <span class="skill">Data Transformation</span>
+            <span class="skill">Data Validation</span>
+            <span class="skill">Error Handling</span>
+            <span class="skill">Workflow Orchestration</span>
+            <span class="skill">Process Improvement</span>
+            <span class="skill">Automated Notifications</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-panel">
+          <span class="eyebrow">Project portfolio</span>
+          <h2>Turning manual processes into repeatable workflows.</h2>
+          <p>
+            This project demonstrates practical application of AI-assisted
+            extraction, workflow automation, data validation, and document
+            generation to reduce administrative effort and improve reporting
+            consistency.
+          </p>
+          <!-- Replace the placeholder email with your public portfolio email. -->
+          <a class="btn primary"
+             href="mailto:YOUR-EMAIL@example.com?subject=CARA%20%2B%20RAS%20Automation">
+            Discuss this project ↗
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> · AI Workflow Automation</span>
+      <span>Built with HTML, CSS, SVG, and JavaScript</span>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById("themeToggle");
+
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      const light = theme === "light";
+      themeToggle.textContent = light ? "☾ Dark" : "☀ Light";
+      themeToggle.setAttribute(
+        "aria-label",
+        light ? "Switch to dark theme" : "Switch to light theme"
+      );
+      document.querySelector('meta[name="theme-color"]')
+        .setAttribute("content", light ? "#f4f7fb" : "#0b1220");
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const next = document.documentElement.dataset.theme === "light"
+        ? "dark" : "light";
+      setTheme(next);
+    });
+
+    // Architecture diagram: interactive node descriptions
+    const nodeDetails = {
+      source: {
+        title: "Source PDFs and images",
+        text: "The CARA workflow begins with source documents containing information that must be extracted and structured."
+      },
+      ocr: {
+        title: "AI Builder Text Recognition",
+        text: "OCR identifies text in PDFs or images and provides extracted content for downstream processing."
+      },
+      extraction: {
+        title: "Bounding-box content identification",
+        text: "Bounding box coordinates help locate relevant content dynamically, supporting the extraction logic used to prepare CARA data."
+      },
+      flow: {
+        title: "Power Automate orchestration",
+        text: "Power Automate coordinates workflow actions, processing steps, validation, notifications, and the transition between stages."
+      },
+      excel: {
+        title: "Excel template population",
+        text: "Office Scripts populate and format SharePoint-hosted Excel templates, producing the structured CARA output."
+      },
+      ras: {
+        title: "CARA data feeds RAS",
+        text: "The CARA output becomes an input to the RAS workflow. This is the handoff connecting data preparation to report generation."
+      },
+      transform: {
+        title: "RAS extraction and transformation",
+        text: "The downstream workflow extracts and maps risk assessment information into the structure required for a standardized Word document."
+      },
+      word: {
+        title: "Standardized Word document",
+        text: "The RAS workflow generates a Word report, replacing repetitive manual document preparation with a repeatable process."
+      },
+      delivery: {
+        title: "Report review and delivery",
+        text: "The completed document proceeds through the applicable review or distribution process. Confirm the production delivery mechanism before representing it as a specific connector or destination."
+      }
+    };
+
+    const nodes = [...document.querySelectorAll(".diagram .node")];
+    const edges = [...document.querySelectorAll(".diagram .edge")];
+    const titleEl = document.getElementById("detailTitle");
+    const textEl = document.getElementById("detailText");
+    const filters = [...document.querySelectorAll(".filter-btn")];
+
+    function selectNode(node) {
+      nodes.forEach(item => item.classList.toggle("selected", item === node));
+      const detail = nodeDetails[node.dataset.id];
+      if (!detail) return;
+      titleEl.textContent = detail.title;
+      textEl.textContent = detail.text;
+    }
+
+    nodes.forEach(node => {
+      node.addEventListener("click", () => selectNode(node));
+      node.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectNode(node);
+        }
+      });
+    });
+
+    function applyFilter(filter) {
+      filters.forEach(button => {
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.filter === filter)
+        );
+      });
+
+      nodes.forEach(node => {
+        const hidden = filter !== "all" && node.dataset.category !== filter;
+        node.classList.toggle("filtered-out", hidden);
+      });
+
+      edges.forEach(edge => {
+        const links = edge.dataset.links.split(" ");
+        const matchingNodes = nodes.filter(node =>
+          links.includes(node.dataset.id)
+        );
+
+        const visible = filter === "all" ||
+          matchingNodes.some(node => node.dataset.category === filter);
+
+        edge.classList.toggle("filtered-out", !visible);
+      });
+    }
+
+    filters.forEach(button => {
+      button.addEventListener("click", () => applyFilter(button.dataset.filter));
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    setTheme("dark");
+  </script>
+</body>
+</html>
