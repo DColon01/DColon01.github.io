@@ -1,0 +1,1348 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="Executive case study: Automated AI-powered weekly status reporting for the VA IETSS program using Power Automate, AI Builder custom prompts, Data Warehouse, Power BI, and SharePoint.">
+  <title>VA IETSS | AI-Powered Status Reporting</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --surface: #111a2e;
+      --surface2: #17233b;
+      --text: #edf3ff;
+      --muted: #9aabc7;
+      --border: rgba(157,180,219,.16);
+      --accent: #78a9ff;
+      --accent2: #70e1c1;
+      --accent-soft: rgba(120,169,255,.12);
+      --nav: rgba(11,16,32,.88);
+      --shadow: 0 20px 60px rgba(0,0,0,.22);
+      --radius: 20px;
+      --max: 1160px;
+    }
+
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg: #f5f7fc;
+      --surface: #fff;
+      --surface2: #edf2fb;
+      --text: #17223b;
+      --muted: #5e6d87;
+      --border: rgba(35,55,95,.14);
+      --accent: #245fce;
+      --accent2: #087e69;
+      --accent-soft: rgba(36,95,206,.09);
+      --nav: rgba(245,247,252,.9);
+      --shadow: 0 18px 50px rgba(29,48,85,.09);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 85% 0%, rgba(72,119,220,.12), transparent 34%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      transition: background .25s, color .25s;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    button { font: inherit; }
+
+    button:focus-visible, a:focus-visible, [tabindex]:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    ::selection { background: var(--accent); color: #071020; }
+
+    .container {
+      width: min(var(--max), calc(100% - 44px));
+      margin: 0 auto;
+    }
+
+    .section { padding: 88px 0; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 17px;
+      color: var(--accent2);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      line-height: 1.16;
+      letter-spacing: -.035em;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin-bottom: 23px;
+      font-size: clamp(2.7rem, 7vw, 5.3rem);
+      font-weight: 850;
+    }
+
+    h2 { margin-bottom: 16px; font-size: clamp(2rem, 4vw, 3.1rem); }
+    h3 { font-size: 1.2rem; }
+    p { margin-top: 0; }
+
+    .gradient {
+      color: var(--accent);
+      background: linear-gradient(110deg, var(--accent), var(--accent2));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .lead {
+      max-width: 740px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+    }
+
+    .muted { color: var(--muted); }
+    .small { font-size: .84rem; }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: var(--nav);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      color: #071020;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: .86rem;
+      font-weight: 650;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-controls { display: flex; gap: 8px; }
+
+    .icon-btn {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .icon-btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .menu-btn { display: none; }
+
+    .hero { padding: 100px 0 78px; overflow: hidden; }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      margin-bottom: 27px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent2);
+      box-shadow: 0 0 12px var(--accent2);
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 13px; margin: 30px 0; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 12px 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary {
+      border-color: transparent;
+      background: linear-gradient(110deg, var(--accent), var(--accent2));
+      color: #071020;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 16px;
+      margin-top: 38px;
+    }
+
+    .metric {
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .metric-value {
+      display: block;
+      margin-bottom: 6px;
+      font-size: clamp(1.7rem, 3.5vw, 2.45rem);
+      font-weight: 850;
+      letter-spacing: -.055em;
+    }
+
+    .metric-label { color: var(--muted); font-size: .84rem; }
+
+    .section-heading { max-width: 770px; margin-bottom: 35px; }
+    .section-heading > p:last-child { color: var(--muted); }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 22px;
+    }
+
+    .panel, .project-card, .skill-group, .impact-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .panel { padding: 27px; box-shadow: var(--shadow); }
+    .panel p { color: var(--muted); }
+
+    .check-list {
+      display: grid;
+      gap: 13px;
+      padding: 0;
+      margin: 20px 0 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      color: var(--muted);
+    }
+
+    .check {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent2);
+      font-weight: 850;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 22px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 27px;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .project-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .project-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 1.05rem;
+      font-weight: 850;
+    }
+
+    .pill, .tag {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: .76rem;
+      font-weight: 650;
+    }
+
+    .pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+    }
+
+    .project-card > p { color: var(--muted); }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 9px 0 22px; }
+
+    .tag {
+      padding: 6px 10px;
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 17px;
+      margin-top: auto;
+      padding-top: 17px;
+      border-top: 1px solid var(--border);
+    }
+
+    .text-link { color: var(--accent); font-size: .88rem; font-weight: 750; }
+    .text-link:hover { text-decoration: underline; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .skill-group { padding: 21px; }
+    .skill-group h3 { font-size: 1rem; margin-bottom: 14px; }
+    .skill-group .tag-list { margin-bottom: 0; }
+
+    /* Interactive architecture */
+    .diagram-shell {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .diagram-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .diagram-toolbar strong { font-size: 1rem; }
+    .diagram-toolbar p { margin: 4px 0 0; color: var(--muted); font-size: .85rem; }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .filter-btn {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: transparent;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .diagram-layout {
+      display: grid;
+      grid-template-columns: minmax(0,1.6fr) minmax(245px,.8fr);
+    }
+
+    .diagram-canvas {
+      min-width: 0;
+      padding: 14px;
+      border-right: 1px solid var(--border);
+      background-image: radial-gradient(var(--border) 1px, transparent 1px);
+      background-size: 19px 19px;
+    }
+
+    .diagram-canvas svg { display: block; width: 100%; height: auto; }
+
+    .edge {
+      fill: none;
+      stroke: var(--muted);
+      stroke-width: 1.8;
+      stroke-dasharray: 5 5;
+      opacity: .7;
+      marker-end: url(#arrow);
+    }
+
+    .node { cursor: pointer; transition: opacity .2s; outline: none; }
+    .node rect {
+      fill: var(--surface2);
+      stroke: var(--border);
+      stroke-width: 1.5;
+      rx: 12;
+      transition: fill .2s, stroke .2s;
+    }
+
+    .node text {
+      fill: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    .node .sub {
+      fill: var(--muted);
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    .node:hover rect, .node:focus rect, .node.selected rect {
+      fill: var(--accent-soft);
+      stroke: var(--accent);
+      stroke-width: 2.5;
+    }
+
+    .node.dimmed { opacity: .12; pointer-events: none; }
+
+    .diagram-info { padding: 27px 23px; }
+    .info-number {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 850;
+    }
+
+    .diagram-info h3 { margin-bottom: 12px; }
+    .diagram-info p { color: var(--muted); font-size: .91rem; }
+
+    .info-meta { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .info-meta strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: .77rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .diagram-hint {
+      padding: 12px 22px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .impact-card { padding: 24px; }
+    .impact-card .project-icon { margin-bottom: 18px; }
+    .impact-card p { margin-bottom: 0; color: var(--muted); font-size: .9rem; }
+
+    .callout {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: 4px 18px 18px 4px;
+      background: var(--surface);
+    }
+
+    .callout p {
+      margin: 0;
+      font-size: clamp(1.15rem,2.5vw,1.55rem);
+      font-weight: 650;
+      letter-spacing: -.02em;
+    }
+
+    .contact-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      padding: clamp(25px,5vw,48px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(120,169,255,.14), transparent 45%),
+        var(--surface);
+    }
+
+    .contact-panel h2 { max-width: 560px; }
+    .contact-panel p { max-width: 590px; margin-bottom: 0; color: var(--muted); }
+
+    footer {
+      padding: 27px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { gap: 12px; }
+      .nav-links a { font-size: .78rem; }
+      .skills-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .diagram-layout { grid-template-columns: 1fr; }
+      .diagram-canvas { border-right: 0; border-bottom: 1px solid var(--border); }
+    }
+
+    @media (max-width: 680px) {
+      .container { width: calc(100% - 30px); }
+      .section { padding: 65px 0; }
+      .hero { padding: 72px 0 55px; }
+
+      .nav-inner { min-height: 65px; flex-wrap: wrap; gap: 10px; }
+      .menu-btn { display: grid; }
+      .nav-controls { margin-left: auto; }
+
+      .nav-links {
+        display: none;
+        order: 3;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding-bottom: 12px;
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-links a {
+        padding: 11px 4px;
+        border-top: 1px solid var(--border);
+        font-size: .92rem;
+      }
+
+      .metrics, .grid-two, .project-grid, .impact-grid { grid-template-columns: 1fr; }
+      .contact-panel { align-items: flex-start; flex-direction: column; }
+      .diagram-toolbar { align-items: flex-start; flex-direction: column; }
+      .diagram-canvas { padding: 5px; }
+      .diagram-info { padding: 22px; }
+    }
+
+    @media (max-width: 390px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .actions .btn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#about" aria-label="Portfolio home">
+        <span class="brand-mark">AI</span>
+        <span>Automation Portfolio</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button class="icon-btn" id="themeToggle"
+          aria-label="Switch to light theme" title="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">☼</span>
+        </button>
+        <button class="icon-btn menu-btn" id="menuToggle"
+          aria-label="Open navigation menu" aria-expanded="false"
+          aria-controls="navLinks">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="about">
+      <div class="container">
+        <div class="availability">
+          <span class="dot"></span>
+          Featured case study · Enterprise reporting automation
+        </div>
+
+        <p class="eyebrow">Artificial Intelligence · Business Intelligence · Automation</p>
+
+        <h1>
+          Transforming weekly reporting into an
+          <span class="gradient">AI-powered intelligence pipeline.</span>
+        </h1>
+
+        <p class="lead">
+          I build automation solutions that turn data and repetitive reporting
+          activities into streamlined, scalable business processes. This
+          featured case study showcases an AI-powered weekly status reporting
+          pipeline developed and deployed for the VA's IETSS program using
+          Microsoft Power Platform, Data Warehouse, Power BI, and SharePoint.
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="#projects">Explore the case study ↘</a>
+          <a class="btn" href="#architecture">Explore system architecture ↗</a>
+        </div>
+
+        <div class="metrics" aria-label="Project results">
+          <article class="metric">
+            <span class="metric-value gradient">87.5%</span>
+            <span class="metric-label">Reduction in report-generation time</span>
+          </article>
+          <article class="metric">
+            <span class="metric-value gradient">4 hrs → &lt;30 min</span>
+            <span class="metric-label">Weekly reporting turnaround</span>
+          </article>
+          <article class="metric">
+            <span class="metric-value gradient">8×+</span>
+            <span class="metric-label">Faster turnaround based on the stated time reduction</span>
+          </article>
+        </div>
+
+        <p class="small muted" style="margin-top:13px">
+          Results reflect the project outcomes provided for this case study.
+          The stated 87.5% reduction corresponds to reducing a four-hour task
+          to 30 minutes; a result under 30 minutes would exceed that reduction.
+        </p>
+      </div>
+    </section>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <section class="section" id="overview">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Executive summary</p>
+          <h2>From manual reporting to <span class="gradient">automated intelligence.</span></h2>
+          <p>
+            A deployed reporting pipeline that combines AI-assisted content
+            generation, enterprise data, analytics, and collaboration tools
+            to reduce the effort required to produce weekly status reports.
+          </p>
+        </div>
+
+        <div class="grid-two">
+          <article class="panel">
+            <h3>The challenge</h3>
+            <p>
+              Weekly status reporting for the VA IETSS program required
+              approximately four hours of effort. Recurring report preparation
+              consumed valuable team capacity that could otherwise support
+              program delivery, analysis, and stakeholder engagement.
+            </p>
+            <ul class="check-list">
+              <li><span class="check">!</span><span>Time-intensive weekly report preparation.</span></li>
+              <li><span class="check">!</span><span>Need to bring together relevant enterprise data and reporting context.</span></li>
+              <li><span class="check">!</span><span>Opportunity to standardize reporting and improve operational scalability.</span></li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>The solution</h3>
+            <p>
+              An AI-powered reporting pipeline orchestrated through Power
+              Automate. AI Builder custom prompts support report-content
+              generation, while Data Warehouse and Power BI provide the
+              supporting data and analytics ecosystem, with SharePoint
+              supporting report collaboration and access.
+            </p>
+            <ul class="check-list">
+              <li><span class="check">✓</span><span>Automates recurring reporting activities through an orchestrated pipeline.</span></li>
+              <li><span class="check">✓</span><span>Reduces generation time from four hours to under 30 minutes.</span></li>
+              <li><span class="check">✓</span><span>Establishes a foundation for potential enterprise-wide adoption.</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECT PORTFOLIO -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Featured project</p>
+          <h2>Enterprise reporting, <span class="gradient">reimagined.</span></h2>
+          <p>
+            A closer look at the deployed solution and the architecture
+            visualization used to communicate its design.
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-top">
+              <div class="project-icon" aria-hidden="true">AI</div>
+              <span class="pill">Deployed solution</span>
+            </div>
+
+            <h3>VA IETSS Weekly Status Report Automation</h3>
+            <p>
+              Developed and deployed an automated AI reporting pipeline
+              integrating Power Automate, AI Builder custom prompts, Data
+              Warehouse, Power BI, and SharePoint. The solution reduces
+              weekly status report generation time by 87.5%, from four
+              hours to under 30 minutes, and is designed with potential
+              enterprise-wide scalability in mind.
+            </p>
+
+            <div class="tag-list" aria-label="Technologies">
+              <span class="tag">Power Automate</span>
+              <span class="tag">AI Builder</span>
+              <span class="tag">Custom prompts</span>
+              <span class="tag">Data Warehouse</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">SharePoint</span>
+            </div>
+
+            <div class="project-links">
+              <a class="text-link" href="#architecture">View architecture ↗</a>
+              <a class="text-link" href="https://github.com/YOUR-USERNAME/YOUR-REPOSITORY"
+                 target="_blank" rel="noopener noreferrer">GitHub repository ↗</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-top">
+              <div class="project-icon" aria-hidden="true">↗</div>
+              <span class="pill">Architecture showcase</span>
+            </div>
+
+            <h3>Interactive AI Reporting Pipeline</h3>
+            <p>
+              An interactive, browser-based architecture diagram explains
+              the logical flow between data sources, AI-assisted processing,
+              analytics, reporting orchestration, and report publication.
+              Designed to make technical concepts accessible to executive
+              stakeholders and engineering teams.
+            </p>
+
+            <div class="tag-list">
+              <span class="tag">HTML5</span>
+              <span class="tag">SVG</span>
+              <span class="tag">Vanilla JavaScript</span>
+              <span class="tag">Responsive CSS</span>
+            </div>
+
+            <div class="project-links">
+              <a class="text-link" href="#architecture">Explore diagram ↗</a>
+              <a class="text-link" href="#contact">Discuss the solution ↗</a>
+            </div>
+          </article>
+        </div>
+
+        <p class="small muted" style="margin-top:20px">
+          The architecture showcase is part of this portfolio page and is not
+          represented as a separately deployed production system.
+        </p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Technology stack</p>
+          <h2>Connecting AI, data, and <span class="gradient">business intelligence.</span></h2>
+          <p>
+            Core platforms and capabilities demonstrated in the weekly
+            status reporting solution.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-group">
+            <h3>Workflow Automation</h3>
+            <div class="tag-list">
+              <span class="tag">Power Automate</span>
+              <span class="tag">Orchestration</span>
+              <span class="tag">Scheduled workflows</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <h3>AI & Content Generation</h3>
+            <div class="tag-list">
+              <span class="tag">AI Builder</span>
+              <span class="tag">Custom prompts</span>
+              <span class="tag">AI-assisted reporting</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <h3>Data & Analytics</h3>
+            <div class="tag-list">
+              <span class="tag">Data Warehouse</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">Reporting data</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <h3>Collaboration & Delivery</h3>
+            <div class="tag-list">
+              <span class="tag">SharePoint</span>
+              <span class="tag">Report publishing</span>
+              <span class="tag">Enterprise scalability</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE ARCHITECTURE -->
+    <section class="section" id="architecture">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Interactive system architecture</p>
+          <h2>Explore the <span class="gradient">reporting pipeline.</span></h2>
+          <p>
+            Select any component to learn about its role in the reporting
+            process. Filter the diagram to focus on data, AI, orchestration,
+            or reporting and delivery.
+          </p>
+        </div>
+
+        <div class="diagram-shell">
+          <div class="diagram-toolbar">
+            <div>
+              <strong>AI-powered weekly reporting</strong>
+              <p>Logical architecture · Select a node for details</p>
+            </div>
+
+            <div class="filters" role="group" aria-label="Filter architecture">
+              <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-btn" data-filter="data" aria-pressed="false">Data</button>
+              <button class="filter-btn" data-filter="ai" aria-pressed="false">AI</button>
+              <button class="filter-btn" data-filter="flow" aria-pressed="false">Automation</button>
+              <button class="filter-btn" data-filter="output" aria-pressed="false">Reporting</button>
+            </div>
+          </div>
+
+          <div class="diagram-layout">
+            <div class="diagram-canvas">
+              <svg viewBox="0 0 560 550" role="group"
+                aria-label="Interactive AI reporting architecture diagram">
+                <defs>
+                  <marker id="arrow" markerWidth="8" markerHeight="8"
+                    refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L6,3 L0,6 Z" fill="currentColor"></path>
+                  </marker>
+                </defs>
+
+                <!-- Data feeds -->
+                <path class="edge" d="M165 73 V98 H280 V112"></path>
+                <path class="edge" d="M395 73 V98 H280"></path>
+
+                <!-- Main pipeline -->
+                <path class="edge" d="M280 170 V192"></path>
+                <path class="edge" d="M280 250 V272"></path>
+                <path class="edge" d="M280 330 V352"></path>
+                <path class="edge" d="M280 410 V432"></path>
+
+                <g class="node selected" tabindex="0" role="button"
+                  aria-label="Data Warehouse"
+                  data-id="warehouse" data-category="data"
+                  transform="translate(55 15)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">01 · Data Warehouse</text>
+                  <text class="sub" x="110" y="42">Enterprise data foundation</text>
+                </g>
+
+                <g class="node" tabindex="0" role="button"
+                  aria-label="Power BI"
+                  data-id="powerbi" data-category="data"
+                  transform="translate(285 15)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">02 · Power BI</text>
+                  <text class="sub" x="110" y="42">Analytics and reporting context</text>
+                </g>
+
+                <g class="node" tabindex="0" role="button"
+                  aria-label="Power Automate"
+                  data-id="automate" data-category="flow"
+                  transform="translate(170 112)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">03 · Power Automate</text>
+                  <text class="sub" x="110" y="42">Workflow orchestration</text>
+                </g>
+
+                <g class="node" tabindex="0" role="button"
+                  aria-label="AI Builder custom prompts"
+                  data-id="ai" data-category="ai"
+                  transform="translate(170 192)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">04 · AI Builder</text>
+                  <text class="sub" x="110" y="42">Custom prompts and synthesis</text>
+                </g>
+
+                <g class="node" tabindex="0" role="button"
+                  aria-label="Report assembly"
+                  data-id="assembly" data-category="flow"
+                  transform="translate(170 272)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">05 · Report assembly</text>
+                  <text class="sub" x="110" y="42">Compile weekly status content</text>
+                </g>
+
+                <g class="node" tabindex="0" role="button"
+                  aria-label="SharePoint publication"
+                  data-id="sharepoint" data-category="output"
+                  transform="translate(170 352)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">06 · SharePoint</text>
+                  <text class="sub" x="110" y="42">Publish and share report</text>
+                </g>
+
+                <g class="node" tabindex="0" role="button"
+                  aria-label="Weekly status report"
+                  data-id="report" data-category="output"
+                  transform="translate(170 432)">
+                  <rect width="220" height="58"></rect>
+                  <text x="110" y="24">07 · Weekly status report</text>
+                  <text class="sub" x="110" y="42">Stakeholder-ready output</text>
+                </g>
+
+                <text x="280" y="523" text-anchor="middle"
+                  fill="currentColor" opacity=".65" font-size="10">
+                  Conceptual data and process flow
+                </text>
+              </svg>
+            </div>
+
+            <aside class="diagram-info" aria-live="polite" aria-atomic="true">
+              <span class="info-number" id="infoNumber">01</span>
+              <p class="eyebrow">Component details</p>
+              <h3 id="infoTitle">Data Warehouse</h3>
+              <p id="infoDescription">
+                Provides the enterprise data foundation used by the reporting
+                process, subject to the configured data connections and
+                available reporting datasets.
+              </p>
+
+              <div class="info-meta">
+                <strong>Role in the pipeline</strong>
+                <p id="infoRole">Supply relevant data for status reporting.</p>
+              </div>
+
+              <div class="info-meta">
+                <strong>Technology</strong>
+                <p id="infoTechnology">Data Warehouse</p>
+              </div>
+            </aside>
+          </div>
+
+          <div class="diagram-hint">
+            Use your mouse or keyboard to select components. This is an
+            illustrative logical architecture based on the supplied project
+            description; actual connectors, data paths, and execution order
+            should be verified against the deployed implementation.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUSINESS IMPACT -->
+    <section class="section" id="impact">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Business impact</p>
+          <h2>Efficiency with <span class="gradient">enterprise potential.</span></h2>
+          <p>
+            The delivered time savings provide a tangible operational benefit
+            and a foundation for evaluating broader adoption.
+          </p>
+        </div>
+
+        <div class="impact-grid">
+          <article class="impact-card">
+            <div class="project-icon" aria-hidden="true">↗</div>
+            <h3>Time reclaimed</h3>
+            <p>
+              Reduces report preparation from four hours to under 30 minutes,
+              returning more than 3.5 hours per reporting cycle at the stated
+              benchmark.
+            </p>
+          </article>
+
+          <article class="impact-card">
+            <div class="project-icon" aria-hidden="true">◎</div>
+            <h3>Repeatable reporting</h3>
+            <p>
+              Uses an AI-assisted workflow and established data and reporting
+              platforms to streamline recurring status report generation.
+            </p>
+          </article>
+
+          <article class="impact-card">
+            <div class="project-icon" aria-hidden="true">↗</div>
+            <h3>Enterprise scalability</h3>
+            <p>
+              Offers potential for reuse across other teams and reporting
+              processes, subject to governance, access controls, integration
+              requirements, and validation.
+            </p>
+          </article>
+        </div>
+
+        <div class="callout" style="margin-top:22px">
+          <p>
+            “By reducing reporting effort by 87.5%, the solution shifts the
+            focus from assembling status updates to acting on program insights.”
+          </p>
+        </div>
+
+        <p class="small muted" style="margin-top:18px">
+          The time reduction is not, by itself, a verified financial ROI.
+          Annual savings depend on reporting frequency, staff costs,
+          adoption, platform licensing, and ongoing maintenance.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-panel">
+          <div>
+            <p class="eyebrow">Let's connect</p>
+            <h2>Building smarter reporting and automation solutions.</h2>
+            <p>
+              I am interested in applying AI, business intelligence, and
+              workflow automation to reduce manual effort and deliver
+              measurable operational outcomes.
+            </p>
+          </div>
+
+          <div class="actions" style="margin:0;flex-shrink:0">
+            <a class="btn btn-primary"
+              href="mailto:YOUR-EMAIL@example.com?subject=AI%20Reporting%20Automation">
+              Contact me ↗
+            </a>
+            <a class="btn" href="https://github.com/YOUR-USERNAME"
+              target="_blank" rel="noopener noreferrer">
+              GitHub profile ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="currentYear"></span> · Automation Portfolio</span>
+      <span>AI-powered reporting · Business intelligence · Process improvement</span>
+      <a class="text-link" href="#about">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    /* Theme toggle */
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      const dark = theme === "dark";
+      themeIcon.textContent = dark ? "☼" : "☾";
+      themeToggle.setAttribute(
+        "aria-label",
+        dark ? "Switch to light theme" : "Switch to dark theme"
+      );
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme || "dark";
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+
+    /* Responsive mobile navigation */
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.setAttribute(
+        "aria-label",
+        open ? "Close navigation menu" : "Open navigation menu"
+      );
+      menuToggle.textContent = open ? "✕" : "☰";
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+    /* Interactive architecture content */
+    const data = {
+      warehouse: {
+        number: "01",
+        title: "Data Warehouse",
+        description:
+          "Provides the enterprise data foundation used by the reporting process, subject to configured data connections and available reporting datasets.",
+        role: "Supply relevant data for status reporting.",
+        technology: "Data Warehouse",
+        category: "data"
+      },
+      powerbi: {
+        number: "02",
+        title: "Power BI",
+        description:
+          "Supports the business intelligence and reporting ecosystem. Depending on the deployed design, it can provide analytical context, metrics, or reporting outputs for the status report.",
+        role: "Support analysis and provide reporting context.",
+        technology: "Microsoft Power BI",
+        category: "data"
+      },
+      automate: {
+        number: "03",
+        title: "Power Automate",
+        description:
+          "Orchestrates the automated pipeline and coordinates the configured processing actions, data handoffs, and report-generation activities.",
+        role: "Coordinate execution across workflow components.",
+        technology: "Microsoft Power Automate",
+        category: "flow"
+      },
+      ai: {
+        number: "04",
+        title: "AI Builder custom prompts",
+        description:
+          "Uses configured AI prompts to help generate or structure reporting content from the information supplied to the model. Prompt design and output validation help keep results aligned with reporting requirements.",
+        role: "Assist with interpreting information and generating report content.",
+        technology: "AI Builder custom prompts",
+        category: "ai"
+      },
+      assembly: {
+        number: "05",
+        title: "Report assembly",
+        description:
+          "Combines the required information into the weekly status report format. The exact transformation, review, and assembly steps depend on the deployed flow.",
+        role: "Prepare a consistent report for publication.",
+        technology: "Power Automate and configured reporting logic",
+        category: "flow"
+      },
+      sharepoint: {
+        number: "06",
+        title: "SharePoint",
+        description:
+          "Supports publishing, organizing, or sharing the generated report in the configured SharePoint environment, with access governed by the organization's permissions.",
+        role: "Provide a managed collaboration and publication destination.",
+        technology: "Microsoft SharePoint",
+        category: "output"
+      },
+      report: {
+        number: "07",
+        title: "Weekly status report",
+        description:
+          "The final reporting deliverable for program stakeholders. The automated pipeline reduces preparation time from four hours to under 30 minutes, based on the supplied project results.",
+        role: "Deliver timely status information for stakeholder review.",
+        technology: "AI-assisted reporting pipeline",
+        category: "output"
+      }
+    };
+
+    const nodes = [...document.querySelectorAll(".node")];
+    const filterButtons = [...document.querySelectorAll(".filter-btn")];
+    const infoNumber = document.getElementById("infoNumber");
+    const infoTitle = document.getElementById("infoTitle");
+    const infoDescription = document.getElementById("infoDescription");
+    const infoRole = document.getElementById("infoRole");
+    const infoTechnology = document.getElementById("infoTechnology");
+
+    function selectNode(node) {
+      const item = data[node.dataset.id];
+      if (!item) return;
+
+      nodes.forEach(n => {
+        const selected = n === node;
+        n.classList.toggle("selected", selected);
+        n.setAttribute("aria-pressed", String(selected));
+      });
+
+      infoNumber.textContent = item.number;
+      infoTitle.textContent = item.title;
+      infoDescription.textContent = item.description;
+      infoRole.textContent = item.role;
+      infoTechnology.textContent = item.technology;
+    }
+
+    nodes.forEach(node => {
+      node.addEventListener("click", () => selectNode(node));
+
+      node.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectNode(node);
+        }
+      });
+    });
+
+    function applyFilter(filter) {
+      filterButtons.forEach(button => {
+        const active = button.dataset.filter === filter;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+
+      nodes.forEach(node => {
+        const matches =
+          filter === "all" ||
+          node.dataset.category === filter;
+        node.classList.toggle("dimmed", !matches);
+      });
+
+      const selected = nodes.find(n => n.classList.contains("selected"));
+
+      if (selected && filter !== "all" &&
+          selected.dataset.category !== filter) {
+        const first = nodes.find(n => n.dataset.category === filter);
+        if (first) selectNode(first);
+      }
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        applyFilter(button.dataset.filter);
+      });
+    });
+
+    /* Footer year and initial state */
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    setTheme("dark");
+    selectNode(document.querySelector('[data-id="warehouse"]'));
+  </script>
+</body>
+</html>
