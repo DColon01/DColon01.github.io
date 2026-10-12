@@ -19,7 +19,12 @@
 <body>
 
     <!-- NAVIGATION -->
-    <nav>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#about" aria-label="Portfolio home">
+        <span>Data Quality & Analytics</span>
+      </a>
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
         <a href="../index.html">Home</a>
         <a href="../about.html">About</a>
         <a href="../projects.html">Projects</a>
@@ -28,17 +33,38 @@
         <a href="../resume.html">Resume</a>
         <a href="../contact.html">Contact</a>
     </nav>
+    
+      <div class="nav-controls">
+        <button class="theme-btn" id="themeToggle"
+          aria-label="Switch to light theme" title="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">☼</span>
+        </button>
+        <button class="menu-btn" id="menuToggle"
+          aria-label="Open navigation menu" aria-expanded="false"
+          aria-controls="navLinks">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
 
     <!-- HERO -->
-    <header class="hero">
-        <p class="tagline">PORTFOLIO PROJECT</p>
-
-        <h1>Data Quality & Analytics</h1>
-
-        <p>
-            Turning data discrepancies into actionable insights.
+ <section class="hero" id="about">
+      <div class="container">
+        <div class="hero-copy reveal">
+          <div class="availability">
+            <span class="status-dot"></span>
+            Featured case study · Data Quality & Analytics
+         </div>
+              
+        <p class="eyebrow">AI · Microsoft Power Platform · Business Impact</p>
+        <h1>
+            Turning data discrepancies into 
+            <span class="gradient-text">actionable insights.</span>
+          </h1>
         </p>
-    </header>
+      </div>
+    </section>
 
     <!-- MAIN CONTENT -->
     <main class="container">
